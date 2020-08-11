@@ -12,37 +12,37 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="pin-generator half-width">
-                    <input class="form-control" type="text">
-                    <button class="generate-btn">Generate Pin</button>
+                    <input id="pin-input" class="form-control" type="text">
+                    <button id="pin-button" class="generate-btn">Generate Pin</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-section half-width">
-                    <input class="form-control" type="text">
+                    <input id="type-input" class="form-control" type="text">
                     <div class="numbers">
                         <div class="calc-body">
                             <div class="calc-button-row">
-                              <div class="button">7</div>
-                              <div class="button">8</div>
-                              <div class="button">9</div>
+                              <div onclick="getInput(7)" class="button">7</div>
+                              <div onclick="getInput(8)" class="button">8</div>
+                              <div onclick="getInput(9)" class="button">9</div>
                             </div>
                             <div class="calc-button-row">
-                              <div class="button">4</div>
-                              <div class="button">5</div>
-                              <div class="button">6</div>
+                              <div onclick="getInput(4)" class="button">4</div>
+                              <div onclick="getInput(5)" class="button">5</div>
+                              <div onclick="getInput(6)" class="button">6</div>
                             </div>
                             <div class="calc-button-row">
-                              <div class="button">1</div>
-                              <div class="button">2</div>
-                              <div class="button">3</div>
+                              <div onclick="getInput(1)" class="button">1</div>
+                              <div onclick="getInput(2)" class="button">2</div>
+                              <div onclick="getInput(3)" class="button">3</div>
                             </div>
                             <div class="calc-button-row">
                                 <div class="button"><</div>
-                                <div class="button">0</div>
-                                <div class="button">C</div>
+                                <div onclick="getInput(0)" class="button">0</div>
+                                <div onclick="getInput('c')" class="button">C</div>
                             </div>
                             <div>
-                                <button type="submit" class="submit-btn">Submit</button>
+                                <button id="submit-button" type="submit" class="submit-btn">Submit</button>
                                 <p class="action-left">3 try left</p>
                             </div>
                     </div>
@@ -54,5 +54,47 @@
             <p id="ok" class="notify">✅ Pin Matched... Secret door is opening for you</p>
         </div>
     </div>
+
+    <script>
+        function getInput(num){
+            // document.getElementById('type-input').value += num;
+            var i = num;
+            if(i == 'c'){
+                document.getElementById('type-input').value = "";
+            }
+            else{
+                document.getElementById('type-input').value += i;
+            }
+        }
+
+        function randomCode(min, max){
+             var step1 = max - min + 1;
+             var step2 = Math.random() * step1;
+             var result = Math.floor(step2) + min;
+             return result;
+        }
+
+        document.getElementById('pin-button').addEventListener('click', function(){
+            document.getElementById('pin-input').value = randomCode(1000, 9999);
+
+        })
+
+        let subButton = document.getElementById('submit-button');
+        subButton.addEventListener('click', function(){
+            let randomPin = document.getElementById('pin-input').value;
+            let submitPin = document.getElementById('type-input').value;
+
+            if(randomPin == submitPin){
+                const pinMatched = document.getElementById('ok');
+                pinMatched.style.display = 'block';
+            }
+            else{
+                const wrongPin = document.getElementById('error');
+                wrongPin.style.display = 'block';
+            }
+        })
+
+        
+    </script>
 </body>
 </html>
